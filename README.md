@@ -1,7 +1,7 @@
 # Gitlab Issue Alert
 
 [![Build Status](https://travis-ci.org/elijahb/graylog-gitlab-alert.svg?branch=master)](https://travis-ci.org/elijahb/graylog-gitlab-alert)
-[![Graylog Marketplace](https://img.shields.io/badge/Graylog-Marketplace-blue.svg)](https://marketplace.graylog.org/addons/8a67cfdf-8c1c-4d17-87bf-db38e79015f1)
+[![Graylog Marketplace](https://img.shields.io/badge/Graylog-Marketplace-blue.svg)](https://marketplace.graylog.org/addons/ad0ebcaf-1a6f-4226-80b6-cb530875c964)
 
 Gitlab Issue Alert allows you to create a Gitlab Issue from [Graylog](https://www.graylog.org) alert messages.
 
@@ -52,4 +52,8 @@ mvn release:perform
 ```
 
 TravisCI builds and uploads the release artifacts automatically.
+
+## Credits
+
+Based on [TelegramAlert](https://github.com/irgendwr/TelegramAlert)
 
