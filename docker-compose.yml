@@ -1,0 +1,72 @@
+version: '3'
+
+volumes:
+  es_data:
+    driver: local
+  graylog_journal:
+    driver: local
+  mongo_data:
+    driver: local
+  
+
+services:
+  app-test:
+    image: node:8.9.1-alpine
+    command: node /app/log-test.js
+    volumes:
+      - "./dev/log-test.js:/app/log-test.js"
+    depends_on:
+      - graylog
+    logging:
+      driver: gelf
+      options:
+        gelf-address: "udp://localhost:12201"
+
+  # MongoDB: https://hub.docker.com/_/mongo/
+  db:
+    image: mongo:3.5
+    volumes:
+      - mongo_data:/data/db
+
+  # Elasticsearch: https://www.elastic.co/guide/en/elasticsearch/reference/5.5/docker.html
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:5.5.1
+    volumes:
+      - es_data:/usr/share/elasticsearch/data
+    environment:
+      - http.host=0.0.0.0
+      - transport.host=localhost
+      - network.host=0.0.0.0
+      # Disable X-Pack security: https://www.elastic.co/guide/en/elasticsearch/reference/5.5/security-settings.html#general-security-settings
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms1024m -Xmx1024m"
+
+  # Graylog: https://hub.docker.com/r/graylog/graylog/
+  graylog:
+    image: graylog/graylog:2.3.0-1
+    volumes:
+      - "graylog_journal:/usr/share/graylog/data/journal"
+      - "./target/graylg-gitlab-plugin-2.1.2-SNAPSHOT.jar:/usr/share/graylog/plugin/graylg-gitlab-plugin-2.1.2.jar"
+    environment:
+      # CHANGE ME!
+      - GRAYLOG_PASSWORD_SECRET=somepasswordpepper
+      - GRAYLOG_MONGODB_URI=mongodb://db/graylog
+      - GRAYLOG_WEB_ENDPOINT_URI=http://localhost:9000/api
+      - GRAYLOG_ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+      - GRAYLOG_WEB_LISTEN_URI=http://0.0.0.0:80/
+      - GRAYLOG_rest_listen_uri=0.0.0.0
+      - GRAYLOG_REST_TRANSPORT_URI=http://127.0.0.1:9000/api/
+      
+      # Password: admin
+      - GRAYLOG_ROOT_PASSWORD_SHA2=8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918
+    depends_on:
+      - elasticsearch
+      - db
+    ports:
+      # Graylog Web interface
+      - 80:80
+      # Graylog REST API
+      - 9000:9000
+      # GELF UDP
+      - 12201:12201/udp
+

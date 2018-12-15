@@ -1,0 +1,18 @@
+language: java
+jdk:
+- oraclejdk8
+sudo: false
+cache:
+  directories:
+  - "$HOME/.m2"
+before_deploy:
+- rm -f target/original-*.jar
+- export PLUGIN_FILE=$(ls target/*.jar)
+- echo "Deploying release to GitHub releases..."
+deploy:
+  provider: releases
+  api_key:
+    secure: "${GITHUB_API_KEY}"
+  file: "${PLUGIN_FILE}"
+  on:
+    repo: elijahb/graylog-gitlab-alert
