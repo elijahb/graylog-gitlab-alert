@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com</groupId>
-    <artifactId>graylg-gitlab-plugin</artifactId>
+    <artifactId>graylog-gitlab-plugin</artifactId>
     <version>1.0.0</version>
     <packaging>jar</packaging>
 
