@@ -14,7 +14,7 @@ deploy:
     tags: true
   provider: releases
   api_key:
-    secure: "${GITHUB_API_KEY}"
+    secure: ${GITHUB_API_KEY}
   file: "${PLUGIN_FILE}"
   skip_cleanup: true
   on:
