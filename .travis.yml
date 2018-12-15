@@ -10,9 +10,14 @@ before_deploy:
 - export PLUGIN_FILE=$(ls target/*.jar)
 - echo "Deploying release to GitHub releases..."
 deploy:
+  only:
+    tags: true
   provider: releases
   api_key:
     secure: "${GITHUB_API_KEY}"
   file: "${PLUGIN_FILE}"
+  skip_cleanup: true
   on:
+    tags: true
+    jdk: oraclejdk8
     repo: elijahb/graylog-gitlab-alert
