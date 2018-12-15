@@ -10,11 +10,9 @@ before_deploy:
 - export PLUGIN_FILE=$(ls target/*.jar)
 - echo "Deploying release to GitHub releases..."
 deploy:
-  only:
-    tags: true
   provider: releases
   api_key:
-    secure: ${GITHUB_API_KEY}
+    secure: cqZfyDh6yHzaZRoa7capkbC8vX5lkjeeMJb6ZZdwIPxuOZVLGm+VdjQNxV017hIX6E6684XGAKMLCFOZUypgRYX1X5aoqcF6ffzWFZlmD3PuD8fiYmtpHQBr8s0Uy+xNdBUhw3q+mGtVxe3P9lCH32DRBGbseD6B5x1KRFeNPqYlKB73KBR6dmS18dVZyUIPX+U4umU65Z7b/4snfN7dAHwtAIaZcYjzP60MYsYwQBamZM2u2vsBAREx+g+5ljEDlh4fA7cr0nM+3jM2PFLRz2d8CSfdFENk4Co7882rCA6zz50Jm/yjVWgRWMbmJCblLmBw9n2xEywrfPulM96wbXOpDTcRSYjpatfAJ0Fol8hviaVEcJXepdMKdt9y51TC8jH2WOULlKrZYOVHQ42mgcRXKiH9CvazJamqdCGk581KtO3M9HZn95Lw78TB42GO2axoEwbl4aw/ZPbfNjR5xLCsM47ePSonKzYmM+nAEvTqqjwng+pprB5JA4yXlYFvh3s4WtFUnvOUtTefZ26hjrDt1Y13W2SKnGkZB4lStTX+C/rLYZHpD28Adu2ltOAiYt/X20FwS8zP48VzGzFBeDDgamQ77Btf8AIFo065QwyxzEtLBMptSwcCLbptWVfPHzJrSmr3S01mSX+TaYri2/5j4pm5eiNKivBPOHmqxmg=
   file: "${PLUGIN_FILE}"
   skip_cleanup: true
   on:
