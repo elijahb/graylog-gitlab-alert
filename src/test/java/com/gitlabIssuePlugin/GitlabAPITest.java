@@ -26,7 +26,7 @@ public class GitlabAPITest {
   @Before
   public void setup() throws FileNotFoundException, IOException {
     this.options.load(getClass().getResourceAsStream("config.properties"));
-    this.gitlab = new GitlabAPI(HttpClients.createDefault(), this.options.getProperty("PRIVATE_TOKEN"));
+    this.gitlab = new GitlabAPI(HttpClients.createDefault(), this.options.getProperty("PRIVATE_TOKEN"), "https://gitlab.com");
     System.out.print(this.options.getProperty("PRIVATE_TOKEN"));
   }
 
