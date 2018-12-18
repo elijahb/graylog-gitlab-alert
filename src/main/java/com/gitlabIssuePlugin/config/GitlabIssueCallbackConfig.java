@@ -53,6 +53,11 @@ public class GitlabIssueCallbackConfig {
                 "Proxy address in the following format: <ProxyAddress>:<Port>",
                 ConfigurationField.Optional.OPTIONAL
         ));
+        configurationRequest.addField(new TextField(
+                Config.GITLAB_URL, "Gitlab URL", "https://gitlab.com",
+                "URL to Gitlab server",
+                ConfigurationField.Optional.NOT_OPTIONAL
+        ));
 
         return configurationRequest;
     }

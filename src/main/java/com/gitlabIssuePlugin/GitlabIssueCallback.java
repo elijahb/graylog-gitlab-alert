@@ -60,7 +60,7 @@ public class GitlabIssueCallback implements AlarmCallback {
             client = HttpClients.createDefault();
         }
         
-        this.bot = new GitlabBot(new GitlabAPI(client, config.getString(Config.TOKEN)));
+        this.bot = new GitlabBot(new GitlabAPI(client, config.getString(Config.TOKEN), config.getString(Config.GITLAB_URL)));
     }
 
     @Override
