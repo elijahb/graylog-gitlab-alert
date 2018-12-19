@@ -20,24 +20,24 @@ public class GitlabAPI {
 
   protected HttpClient client;
 
-  protected String createIssuesUrl = "%s/api/v4/projects/%s/issues";
+  protected String createIssuesUrl = "/api/v4/projects/%s/issues";
 
-  protected String issuesUrl = "%s/api/v4/issues?search=%s";
+  protected String issuesUrl = "/api/v4/issues?search=%s";
 
-  protected String projectsUrl = "%s/api/v4/projects?search=%s"; 
+  protected String projectsUrl = "/api/v4/projects?search=%s"; 
 
   protected String token;
-
-  protected String gitlabUrl;
 
   GitlabAPI(HttpClient client, String token, String gitlabUrl) {
     this.client = client;
     this.token = token;
-    this.gitlabUrl = gitlabUrl;
+    this.createIssuesUrl = gitlabUrl.concat(this.createIssuesUrl);
+    this.issuesUrl = gitlabUrl.concat(this.issuesUrl);
+    this.projectsUrl = gitlabUrl.concat(this.projectsUrl);
   }
 
   public void create(Issue issue) throws IOException, AlarmCallbackException {
-    HttpPost request = new HttpPost(String.format(this.gitlabUrl, this.createIssuesUrl, issue.projectId));
+    HttpPost request = new HttpPost(String.format(this.createIssuesUrl, issue.projectId));
 
     request.setHeader("PRIVATE-TOKEN", this.token);
 
@@ -59,7 +59,7 @@ public class GitlabAPI {
   }
 
   public Number findId(String projectName) throws IOException, AlarmCallbackException {
-    HttpGet request = new HttpGet(String.format(this.gitlabUrl, this.projectsUrl, URLEncoder.encode(projectName)));
+    HttpGet request = new HttpGet(String.format(this.projectsUrl, URLEncoder.encode(projectName)));
 
     request.setHeader("PRIVATE-TOKEN", this.token);
 
@@ -77,7 +77,7 @@ public class GitlabAPI {
   }  
 
   public Boolean issueExists(String title) throws IOException, AlarmCallbackException {
-    HttpGet request = new HttpGet(String.format(this.gitlabUrl, this.issuesUrl, URLEncoder.encode(title)));
+    HttpGet request = new HttpGet(String.format(this.issuesUrl, URLEncoder.encode(title)));
 
     request.setHeader("PRIVATE-TOKEN", this.token);
 
